@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Popular Quotes - QuoteMaster{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="display-4 text-center mb-5 animate__animated animate__fadeIn">
+            <i class="fas fa-fire me-2"></i>Popular Quotes
+        </h1>
+        <div id="quotes-container" class="row g-4">
+            {% for quote in quotes %}
+            <div class="col-md-6 col-lg-4 mb-4 animate__animated animate__zoomIn">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">{{ quote.content }}</p>
+                        <footer class="blockquote-footer mt-2">
+                            {{ quote.author }}
+                        </footer>
+                        <div class="mt-3">
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-star"></i> {{ "%.1f"|format(quote.average_rating) }}
+                            </span>
+                            <a href="/quotes/{{ quote.id }}" class="btn btn-sm btn-outline-primary ms-2">
+                                <i class="fas fa-info-circle me-2"></i>Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-muted py-4">
+                No popular quotes yet. Be the first to rate quotes!
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

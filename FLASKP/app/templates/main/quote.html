@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}{{ quote.author }} - QuoteMaster{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <blockquote class="blockquote mb-0">
+                            <p class="display-5">{{ quote.content }}</p>
+                            <footer class="blockquote-footer mt-4">
+                                {{ quote.author }}
+                                {% if quote.source %}
+                                <cite title="Source" class="ms-2">{{ quote.source }}</cite>
+                                {% endif %}
+                            </footer>
+                        </blockquote>
+                        <!-- Rating section -->
+                        <div class="rating-section mt-4">
+                            <h5>Rate this quote:</h5>
+                            <div class="star-rating">
+                                {% for i in range(1,6) %}
+                                    <i class="fas fa-star star" data-rating="{{ i }}" style="color: #e4e5e9;"></i>
+                                {% endfor %}
+                            </div>
+                            <p class="mt-2">
+                                Average Rating: 
+                                <span id="average-rating">
+                                    {{ "%.1f"|format(quote.average_rating) if quote.average_rating else "Not rated" }}
+                                </span>/5
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const stars = document.querySelectorAll('.star');
+    let currentRating = {{ (user_rating.value if user_rating else 0)|tojson }};
+    const quoteId = {{ quote.id|tojson }};
+
+    // Initialize stars with current rating
+    stars.forEach((star, index) => {
+        star.style.color = index < currentRating ? '#ffc107' : '#e4e5e9';
+    });
+
+    // Event handlers
+    stars.forEach(star => {
+        star.addEventListener('mouseover', function(e) {
+            const rating = parseInt(e.target.dataset.rating);
+            highlightStars(rating);
+        });
+
+        star.addEventListener('mouseout', () => highlightStars(currentRating));
+
+        star.addEventListener('click', function(e) {
+            const newRating = parseInt(e.target.dataset.rating);
+            currentRating = newRating;
+            submitRating(newRating);
+        });
+    });
+
+    function highlightStars(rating) {
+        stars.forEach((star, index) => {
+            star.style.color = index < rating ? '#ffc107' : '#e4e5e9';
+        });
+    }
+
+    function submitRating(rating) {
+        fetch(`/api/quote/${quoteId}/rate`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ rating: rating }),
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = '/login?next=' + window.location.pathname;
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                document.getElementById('average-rating').textContent = 
+                    data.average_rating.toFixed(1);
+                highlightStars(rating);
+            }
+        })
+        .catch(error => console.error('Error:', error)); 
+    }
+});
+</script>
+{% endblock %}

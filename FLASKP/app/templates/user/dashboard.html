@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- User Info -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4><i class="fas fa-user me-2"></i>Your Profile</h4>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1"><strong>Username:</strong> {{ current_user.username }}</p>
+                    <p class="mb-1"><strong>Email:</strong> {{ current_user.email }}</p>
+                    <a href="{{ url_for('main.profile') }}" class="btn btn-warning btn-sm mt-3">
+                        <i class="fas fa-edit me-2"></i>Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- User's Quotes -->
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4><i class="fas fa-quote-left me-2"></i>Your Quotes</h4>
+                </div>
+                <div class="card-body">
+                    <a href="{{ url_for('main.propose_quote') }}" class="btn btn-primary mb-3">
+                        <i class="fas fa-plus me-2"></i>New Quote
+                    </a>
+                    {% if quotes %}
+                    <div class="list-group">
+                        {% for quote in quotes %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1">{{ quote.content }}</p>
+                                <small class="text-muted">By {{ quote.author }}</small>
+                                <span class="badge bg-{{ 'success' if quote.approved else 'warning' }} ms-2">
+                                    {{ 'Approved' if quote.approved else 'Pending' }}
+                                </span>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('main.edit_quote', id=quote.id) }}" 
+                                   class="btn btn-sm btn-outline-primary me-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ url_for('main.delete_quote', id=quote.id) }}" 
+                                   class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        No quotes submitted yet!
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

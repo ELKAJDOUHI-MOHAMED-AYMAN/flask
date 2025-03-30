@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4>Add New Quote</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Quote Content</label>
+                        <textarea class="form-control" name="content" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Author</label>
+                        <input type="text" class="form-control" name="author" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Quote</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Profile Settings - QuoteMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg animate__animated animate__fadeIn">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-user-cog me-2"></i>Profile Settings</h3>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Profile Picture Section -->
+                    <div class="text-center mb-5">
+                        <div class="avatar-upload">
+                            <img src="{{ url_for('static', filename='images/default-avatar.png') if not current_user.profile_image else current_user.get_profile_image() }}" 
+                                class="avatar-preview rounded-circle shadow" 
+                                id="avatarPreview"
+                                alt="Avatar"
+                                style="width: 150px; height: 150px; object-fit: cover;">
+                            <div class="mt-3">
+                                <button class="btn btn-outline-primary btn-sm" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#avatarModal">
+                                    <i class="fas fa-camera me-2"></i>Change Avatar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Username Update Form -->
+                    <div class="mb-4">
+                        <h5 class="mb-3"><i class="fas fa-user-edit me-2"></i>Update Username</h5>
+                        <form id="usernameForm">
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="usernameInput"
+                                       value="{{ current_user.username }}">
+                                <button type="submit" class="btn btn-primary">
+                                    Update
+                                </button>
+                            </div>
+                            <div id="usernameFeedback" class="mt-2"></div>
+                        </form>
+                    </div>
+
+                    <!-- Password Update Form -->
+                    <div class="mb-4">
+                        <h5 class="mb-3"><i class="fas fa-lock me-2"></i>Change Password</h5>
+                        <form id="passwordForm">
+                            <div class="mb-3">
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="Current Password"
+                                       name="current_password"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="New Password"
+                                       name="new_password"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="Confirm New Password"
+                                       name="confirm_password"
+                                       required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Change Password
+                            </button>
+                            <div id="passwordFeedback" class="mt-2"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Avatar Modal -->
+<div class="modal fade" id="avatarModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Profile Picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="avatarForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="btn btn-primary w-100" id="avatarLabel">
+                            <i class="fas fa-camera me-2"></i> Choose File
+                            <input type="file" 
+                                   name="avatar" 
+                                   accept="image/*" 
+                                   required 
+                                   hidden
+                                   id="avatarInput">
+                        </label>
+                        <div class="form-text mt-2">Max file size: 2MB (JPEG, PNG)</div>
+                        <span id="fileName" class="d-block mt-2 text-muted"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        Upload New Photo
+                    </button>
+                </form>
+                <div id="avatarFeedback" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

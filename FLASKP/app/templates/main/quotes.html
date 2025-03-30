@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Quotes - QuoteMaster{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="display-4 text-center mb-5 animate__animated animate__fadeIn">
+            <i class="fas fa-book-open me-2"></i>All Quotes
+        </h1>
+        <!-- In quotes.html after the main heading -->
+<div class="text-center mb-4">
+    <a href="{{ url_for('main.propose_quote') }}" class="btn btn-success btn-lg">
+        <i class="fas fa-lightbulb me-2"></i>Propose a Quote
+    </a>
+</div>
+        <div id="quotes-container" class="row g-4">
+            <!-- Single quote display if coming from Learn More -->
+            {% if quote %}
+            <div class="col-12">
+                <div class="card shadow-lg mb-4 animate__animated animate__zoomIn">
+                    <div class="card-body p-5">
+                        <blockquote class="blockquote mb-0">
+                            <p class="display-5">{{ quote.content }}</p>
+                            <footer class="blockquote-footer mt-4">
+                                {{ quote.author }}
+                                {% if quote.source %}
+                                <cite title="Source" class="ms-2">{{ quote.source }}</cite>
+                                {% endif %}
+                            </footer>
+                        </blockquote>
+                        <div class="mt-4">
+                            <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="text-center mt-5">
+            <button id="load-more-quotes" class="btn btn-primary btn-lg">
+                Load More <i class="fas fa-arrow-down"></i>
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let currentPage = 1;
+    
+    function loadMoreQuotes() {
+        $.ajax({
+            url: `/api/quotes?page=${currentPage}`,
+            success: function(data) {
+                if(data.length === 0) {
+                    $('#load-more-quotes').hide();
+                    return;
+                }
+                
+                data.forEach(quote => {
+                    $('#quotes-container').append(`
+                        <div class="col-md-6 col-lg-4 mb-4 animate__animated animate__zoomIn">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">${quote.content}</p>
+                                    <footer class="blockquote-footer mt-2">
+                                        ${quote.author}
+                                    </footer>
+                                    <div class="mt-3">
+                                        <a href="/quotes/${quote.id}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-info-circle me-2"></i>Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+                currentPage++;
+            }
+        });
+    }
+
+    // Event listener for the button
+    $(document).ready(function() {
+        $('#load-more-quotes').on('click', loadMoreQuotes);
+        loadMoreQuotes(); // Load initial quotes
+    });
+</script>
+{% endblock %}
