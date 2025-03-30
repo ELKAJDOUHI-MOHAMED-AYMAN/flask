@@ -78,7 +78,7 @@ def delete_quote(id):
         flash('Quote deleted successfully!', 'success')
     return redirect(url_for('admin.dashboard'))
 
-# In admin.py
+
 @admin_bp.route('/admin/edit-quote/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_quote(id):
@@ -99,7 +99,6 @@ def edit_quote(id):
 
 
 
-# In admin.py routes
 @admin_bp.before_request
 @login_required
 def check_admin():
