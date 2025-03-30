@@ -1,20 +1,68 @@
+<!-- login.html -->
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2 class="mb-4">Login</h2>
-        <form method="POST">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" required>
+<div class="auth-container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="auth-card card shadow-lg animate__animated animate__fadeIn">
+                <div class="card-body p-4 p-sm-5">
+                    <div class="text-center mb-5">
+                        <<div class="lottie-container" style="width: 150px; height: 150px; margin: -40px auto 0">
+                            <lottie-player class="lottie-animation"
+                                data-src="https://assets2.lottiefiles.com/packages/lf20_hu9cd9.json"
+                                background="transparent"
+                                speed="1"
+                                style="width: 100%; height: 100%"
+                                loop
+                                autoplay>
+                            </lottie-player>
+                        </div>
+                        <h2 class="auth-title">Welcome Back!</h2>
+                        <p class="auth-subtitle">Sign in to continue your inspiration journey</p>
+                    </div>
+
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control form-control-lg" 
+                                       name="email" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control form-control-lg" 
+                                       name="password" placeholder="••••••••" required>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-0">
+                                Don't have an account? 
+                                <a href="{{ url_for('auth.register') }}" class="text-primary fw-bold">
+                                    Create one
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}
