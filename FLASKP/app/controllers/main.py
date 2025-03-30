@@ -227,8 +227,6 @@ def update_avatar():
     
 
 
-
-# In main.py
 @main_bp.route('/quotes')
 def browse_quotes():
     # Pass empty quote variable explicitly
@@ -247,10 +245,7 @@ def quote_detail(id):
                          quote=quote,
                          user_rating=user_rating)
 
-    
 
-
-# In main.py
 @main_bp.route('/propose-quote', methods=['GET', 'POST'])
 @login_required
 def propose_quote():
@@ -269,12 +264,11 @@ def propose_quote():
         return redirect(url_for('main.browse_quotes'))
     return render_template('main/propose_quote.html')
 
-# Remove this route if not needed elsewhere
 @main_bp.route('/user/quotes')
 @login_required
 def user_quotes():
     quotes = Quote.query.filter_by(user_id=current_user.id).all()
-    return render_template('user/dashboard.html', quotes=quotes)  # Or remove completely
+    return render_template('user/dashboard.html', quotes=quotes)  
 
 
 
@@ -324,7 +318,6 @@ def get_paginated_quotes():
     
 
 
-# main.py
 @main_bp.route('/api/quote/<int:quote_id>/rate', methods=['POST'])
 @login_required
 def rate_quote(quote_id):
@@ -354,7 +347,6 @@ def rate_quote(quote_id):
     })
 
 
-# main.py
 @main_bp.route('/quotes/popular')
 def popular_quotes():
     popular_quotes = Quote.query.filter(
