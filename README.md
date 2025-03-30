@@ -1,5 +1,5 @@
 # QuoteMaster - Wisdom Inspiration Platform
-![QuoteMaster Screenshot](static/images/quotemaster.png)
+![QuoteMaster Screenshot](https://raw.githubusercontent.com/ELKAJDOUHI-MOHAMED-AYMAN/flask/main/FLASKP/app/static/images/quotemaster.png)
 
 A Flask-based web application for discovering, sharing, and rating inspirational quotes from great minds.
 
