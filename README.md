@@ -22,33 +22,25 @@ A Flask-based web application for discovering, sharing, and rating inspirational
 ## Installation
 
 1. **Clone the repository**
-   ```bash
    git clone https://github.com/ELKAJDOUHI-MOHAMED-AYMAN/flask.git
    cd flask
-Set up virtual environment (recommended)
-
-python -m venv venv
-Activate virtual environment
-
+2. **Set up virtual environment (recommended)**
+   python -m venv venv
+3. **Activate virtual environment**
 On Windows:
-
 venv\Scripts\activate
-On macOS/Linux:
 
+On macOS/Linux:
 source venv/bin/activate
 
-Initialize the database
-
+4. **Initialize the database**
 flask db init
 flask db migrate
 flask db upgrade
-Running the Application
-Start the development server
 
+5. **Start the development server**
 flask run
-Access the application
+6. **Access the application**
 Open your browser and visit:
-
 http://localhost:5000
-Project Structure
  
