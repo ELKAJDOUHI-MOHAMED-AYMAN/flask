@@ -22,8 +22,8 @@ A Flask-based web application for discovering, sharing, and rating inspirational
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/QuoteMaster.git
-   cd QuoteMaster
+   git clone https://github.com/ELKAJDOUHI-MOHAMED-AYMAN/flask.git
+   cd flask
 Set up virtual environment (recommended)
 
 python -m venv venv
