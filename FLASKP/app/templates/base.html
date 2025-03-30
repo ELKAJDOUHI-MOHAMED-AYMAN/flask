@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.4/lottie.min.js"></script>
     
 </head>
@@ -80,7 +79,7 @@
     </main>
 
     <!-- Footer -->
-<footer class="bg-dark text-white mt-auto py-4">
+<footer class="footer bg-dark text-white mt-auto py-4">
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4">
@@ -120,6 +119,36 @@
     <script src="{{ url_for('static', filename='js/script.js') }}?v=1.1"></script>
     <script src="{{ url_for('static', filename='js/profile.js') }}?v=2.1"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    {% block scripts %}{% endblock %}  <!-- Add this line -->
+    <script>
+        // Lottie initialization with fallback
+        document.addEventListener('DOMContentLoaded', function() {
+            const lottieContainers = document.querySelectorAll('.lottie-container');
+            
+            lottieContainers.forEach(container => {
+                const player = container.querySelector('lottie-player');
+                const fallback = document.createElement('div');
+                fallback.className = 'lottie-fallback animate__animated animate__bounceIn';
+                fallback.innerHTML = player.classList.contains('register-animation') ? 
+                    '<i class="fas fa-user-plus"></i>' : 
+                    '<i class="fas fa-sign-in-alt"></i>';
+                
+                container.appendChild(fallback);
+        
+                player.addEventListener('error', () => {
+                    container.setAttribute('data-fallback', 'true');
+                });
+        
+                // Load animation after WebComponents polyfill
+                setTimeout(() => {
+                    if(!player.shadowRoot) {
+                        container.setAttribute('data-fallback', 'true');
+                    } else {
+                        player.load(player.dataset.src);
+                    }
+                }, 500);
+            });
+        });
+        </script>
+    {% block scripts %}{% endblock %}  
 </body>
 </html>
